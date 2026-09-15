@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@saudmu — GIF Creator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple: #1B1030;
+    --purple-2: #2A1B4D;
+    --pink: #FF3E8E;
+    --yellow: #FFD400;
+    --cyan: #3FDBFF;
+    --paper: #FFF7EE;
+    --ink: #1B1030;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3, .display{
+    font-family:'Baloo 2', sans-serif;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.4rem 6%;
+    position:relative;
+    z-index:10;
+  }
+  .logo{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:1.4rem;
+  }
+  .logo span{color:var(--pink);}
+  .nav-links{
+    display:flex;
+    gap:2rem;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .nav-links a{
+    position:relative;
+    padding-bottom:2px;
+  }
+  .nav-links a:hover{color:var(--pink);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:var(--purple);
+    color:var(--paper);
+    padding:5rem 6% 7rem;
+    border-radius:0 0 3rem 3rem;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-120px; right:-120px;
+    width:360px; height:360px;
+    background:var(--pink);
+    border-radius:50%;
+    filter:blur(10px);
+    opacity:0.35;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    bottom:-140px; left:-80px;
+    width:320px; height:320px;
+    background:var(--cyan);
+    border-radius:50%;
+    filter:blur(10px);
+    opacity:0.25;
+  }
+  .hero-inner{
+    position:relative;
+    z-index:2;
+    max-width:760px;
+  }
+  .eyebrow-loop{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    background:rgba(255,255,255,0.08);
+    border:1.5px solid rgba(255,255,255,0.25);
+    padding:0.4rem 0.9rem;
+    border-radius:100px;
+    font-size:0.85rem;
+    font-weight:600;
+    margin-bottom:1.6rem;
+  }
+  .loop-dot{
+    width:8px; height:8px;
+    background:var(--yellow);
+    border-radius:50%;
+    animation:pulse 1.4s infinite ease-in-out;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1); opacity:1;}
+    50%{transform:scale(1.6); opacity:0.5;}
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 6vw, 4.6rem);
+    line-height:1.05;
+    font-weight:800;
+    margin-bottom:1.4rem;
+  }
+  .hero h1 .handle{
+    color:var(--yellow);
+    display:inline-block;
+  }
+  .hero p{
+    font-size:1.15rem;
+    line-height:1.6;
+    max-width:520px;
+    opacity:0.85;
+    margin-bottom:2.2rem;
+  }
+  .hero-ctas{
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    padding:0.9rem 1.6rem;
+    border-radius:100px;
+    font-weight:700;
+    font-size:1rem;
+    cursor:pointer;
+    border:2px solid transparent;
+    transition:transform 0.15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{
+    background:var(--pink);
+    color:var(--paper);
+  }
+  .btn-ghost{
+    border-color:rgba(255,255,255,0.4);
+    color:var(--paper);
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee-wrap{
+    background:var(--yellow);
+    overflow:hidden;
+    padding:0.9rem 0;
+    border-bottom:3px solid var(--ink);
+  }
+  .marquee{
+    display:flex;
+    width:max-content;
+    animation:scroll 22s linear infinite;
+  }
+  .marquee span{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:1.1rem;
+    color:var(--ink);
+    padding:0 2rem;
+    white-space:nowrap;
+  }
+  @keyframes scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{
+    padding:5.5rem 6%;
+    max-width:1200px;
+    margin:0 auto;
+  }
+  .section-head{
+    max-width:560px;
+    margin-bottom:3rem;
+  }
+  .section-head h2{
+    font-size:clamp(1.9rem, 3.4vw, 2.6rem);
+    font-weight:700;
+    margin-bottom:0.8rem;
+  }
+  .section-head p{
+    font-size:1.05rem;
+    line-height:1.6;
+    color:#4a3d63;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:3.5rem;
+    align-items:center;
+  }
+  .about-visual{
+    position:relative;
+    aspect-ratio:1/1;
+    background:linear-gradient(135deg, var(--pink), var(--cyan));
+    border-radius:2rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform:rotate(-3deg);
+  }
+  .about-visual .loop-badge{
+    position:absolute;
+    bottom:-18px; right:-18px;
+    background:var(--paper);
+    border:3px solid var(--ink);
+    border-radius:50%;
+    width:92px; height:92px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Baloo 2';
+    font-weight:800;
+    font-size:0.85rem;
+    text-align:center;
+    transform:rotate(8deg);
+  }
+  .about-visual-inner{
+    width:80%; height:80%;
+    background:var(--paper);
+    border-radius:1.5rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:4rem;
+  }
+  .about-text p{
+    font-size:1.08rem;
+    line-height:1.75;
+    color:#3a2f52;
+    margin-bottom:1.2rem;
+  }
+  .about-stats{
+    display:flex;
+    gap:2.4rem;
+    margin-top:1.8rem;
+  }
+  .stat b{
+    font-family:'Baloo 2';
+    font-size:1.8rem;
+    display:block;
+    color:var(--pink);
+  }
+  .stat span{
+    font-size:0.85rem;
+    color:#6b5d87;
+    font-weight:600;
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.6rem;
+  }
+  .gif-card{
+    background:var(--purple-2);
+    border-radius:1.4rem;
+    overflow:hidden;
+    position:relative;
+    aspect-ratio:1/1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .gif-card:nth-child(2){transform:rotate(1.5deg);}
+  .gif-card:nth-child(3){transform:rotate(-1.5deg);}
+  .gif-card:nth-child(5){transform:rotate(-1.5deg);}
+  .gif-card:nth-child(6){transform:rotate(1.5deg);}
+  .gif-loop{
+    width:56%; height:56%;
+    border-radius:50%;
+    filter:blur(0.5px);
+  }
+  .g1 .gif-loop{background:conic-gradient(from 0deg, var(--pink), var(--yellow), var(--cyan), var(--pink)); animation:spin 3s linear infinite;}
+  .g2 .gif-loop{background:conic-gradient(from 90deg, var(--cyan), var(--pink), var(--yellow), var(--cyan)); animation:spin 4s linear infinite reverse;}
+  .g3 .gif-loop{background:conic-gradient(from 180deg, var(--yellow), var(--cyan), var(--pink), var(--yellow)); animation:spin 2.4s linear infinite;}
+  .g4 .gif-loop{background:conic-gradient(from 45deg, var(--pink), var(--cyan), var(--yellow), var(--pink)); animation:spin 3.6s linear infinite reverse;}
+  .g5 .gif-loop{background:conic-gradient(from 270deg, var(--yellow), var(--pink), var(--cyan), var(--yellow)); animation:spin 3.2s linear infinite;}
+  .g6 .gif-loop{background:conic-gradient(from 30deg, var(--cyan), var(--yellow), var(--pink), var(--cyan)); animation:spin 2.8s linear infinite reverse;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .gif-card .tag{
+    position:absolute;
+    top:0.8rem; left:0.8rem;
+    background:rgba(255,247,238,0.12);
+    color:var(--paper);
+    font-size:0.72rem;
+    font-weight:700;
+    padding:0.3rem 0.7rem;
+    border-radius:100px;
+    backdrop-filter:blur(4px);
+  }
+  .gallery-note{
+    margin-top:1.8rem;
+    font-size:0.9rem;
+    color:#6b5d87;
+    text-align:center;
+  }
+
+  /* ---------- PROCESS ---------- */
+  .process{
+    background:var(--purple);
+    border-radius:3rem;
+    color:var(--paper);
+  }
+  .process .section-head p{color:#c9bfe0;}
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.8rem;
+  }
+  .step{
+    background:rgba(255,255,255,0.06);
+    border-radius:1.4rem;
+    padding:2rem 1.6rem;
+  }
+  .step-num{
+    font-family:'Baloo 2';
+    font-weight:800;
+    font-size:1.6rem;
+    color:var(--yellow);
+    margin-bottom:0.9rem;
+  }
+  .step h3{
+    font-size:1.15rem;
+    margin-bottom:0.6rem;
+  }
+  .step p{
+    font-size:0.95rem;
+    color:#c9bfe0;
+    line-height:1.6;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact{
+    text-align:center;
+  }
+  .contact h2{
+    font-size:clamp(2rem, 4vw, 3rem);
+    margin-bottom:1rem;
+  }
+  .contact p{
+    font-size:1.05rem;
+    color:#4a3d63;
+    max-width:480px;
+    margin:0 auto 2.2rem;
+  }
+  .social-row{
+    display:flex;
+    gap:1rem;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .social-pill{
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    background:var(--purple-2);
+    color:var(--paper);
+    padding:0.85rem 1.5rem;
+    border-radius:100px;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .social-pill b{color:var(--yellow);}
+
+  footer{
+    text-align:center;
+    padding:2.5rem 6%;
+    font-size:0.85rem;
+    color:#8a7ba8;
+  }
+
+  @media (max-width: 860px){
+    .about{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .steps{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">saud<span>mu</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#gallery">GIFs</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow-loop"><span class="loop-dot"></span> Now creating on GIPHY</div>
+    <h1>Loops, reactions,<br> and chaos —<br> made by <span class="handle">@saudmu</span></h1>
+    <p>I make GIFs people actually use: reactions, loops, and little moments that are funnier the fifth time you watch them.</p>
+    <div class="hero-ctas">
+      <a href="#gallery" class="btn btn-primary">See the GIFs</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>REACTION GIFS</span><span>•</span><span>LOOP ANIMATIONS</span><span>•</span><span>STICKERS</span><span>•</span><span>MEME EDITS</span><span>•</span>
+    <span>REACTION GIFS</span><span>•</span><span>LOOP ANIMATIONS</span><span>•</span><span>STICKERS</span><span>•</span><span>MEME EDITS</span><span>•</span>
+  </div>
+</div>
+
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="about-visual-inner">🎬</div>
+    <div class="loop-badge">100% LOOPS</div>
+  </div>
+  <div class="about-text">
+    <div class="section-head">
+      <h2>Hey, I'm Saud.</h2>
+    </div>
+    <p>I've been making GIFs for a couple of years — started by editing clips for friends, and it turned into a whole habit. Now I build reaction GIFs, short loop animations, and sticker packs made to actually get used in chats.</p>
+    <p>Every GIF here is made to loop cleanly, read instantly, and land the joke in under two seconds.</p>
+    <div class="about-stats">
+      <div class="stat"><b>50+</b><span>GIFs made</span></div>
+      <div class="stat"><b>2s</b><span>avg. loop length</span></div>
+      <div class="stat"><b>∞</b><span>rewatches</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-head">
+    <h2>Featured loops</h2>
+    <p>A sample of the reaction GIFs and animations in the collection. Swap these placeholders for your real GIFs before publishing.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gif-card g1"><span class="tag">reaction</span><div class="gif-loop"></div></div>
+    <div class="gif-card g2"><span class="tag">loop</span><div class="gif-loop"></div></div>
+    <div class="gif-card g3"><span class="tag">sticker</span><div class="gif-loop"></div></div>
+    <div class="gif-card g4"><span class="tag">meme edit</span><div class="gif-loop"></div></div>
+    <div class="gif-card g5"><span class="tag">reaction</span><div class="gif-loop"></div></div>
+    <div class="gif-card g6"><span class="tag">loop</span><div class="gif-loop"></div></div>
+  </div>
+  <p class="gallery-note">Placeholder loops shown above — replace each card's background with your actual GIF file when you publish this site.</p>
+</section>
+
+<section class="process" id="process">
+  <div class="section-head">
+    <h2>How a GIF gets made</h2>
+    <p>Same process every time, from idea to upload.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Find the moment</h3>
+      <p>Source clip, original footage, or a scene worth turning into a loop.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Cut and loop</h3>
+      <p>Trim to the exact frames that land the joke, then loop it seamlessly.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Tag and publish</h3>
+      <p>Caption it, tag it, and push it live on GIPHY.</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Let's make something loop</h2>
+  <p>Open to collabs, requests, and just talking GIFs. Find me here:</p>
+  <div class="social-row">
+    <span class="social-pill"><b>GIPHY</b> @saudmu</span>
+    <span class="social-pill"><b>Instagram</b> @saudmu</span>
+    <span class="social-pill"><b>Email</b> hello@saudmu.com</span>
+  </div>
+</section>
+
+<footer>
+  © 2026 @saudmu — GIF Creator Portfolio
+</footer>
+
+</body>
+</html>
